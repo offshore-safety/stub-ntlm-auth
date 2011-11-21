@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Scott Robinson']
   s.email       = ['sr@thoughtworks.com']
-  s.summary     = %q{A stub for ntlm_helper}
+  s.description = %q{A stub for ntlm_helper}
   s.summary     = s.description
 
   s.files         = `git ls-files`.split "\n"
@@ -18,4 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'rake'
+
+  s.add_dependency 'bindata'
+  s.add_dependency 'ruby-ntlm'
 end
