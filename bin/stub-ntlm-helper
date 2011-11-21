@@ -4,17 +4,19 @@ $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
 require 'stub-ntlm-helper'
 
-YR = /YR$/
-KK = /KK ([0-9A-Za-z=]+)$/
+YR = /YR/
+KK = /KK ([0-9A-Za-z=+\/]+)$/
 
 $<.each do |line|
-  if line =~ YR
-    challenge = NTLM::Challenge.new
-    print "TT " + challenge.encode
-  elsif line =~ KK
-    authenticate = NTLM::Authenticate.decode $1
-    puts "AF #{authenticate.username}"
-  else
-    puts "BH #{line}"
-  end
+    if line =~ YR
+      challenge = NTLM::Challenge.new
+      puts "TT " + challenge.encode
+    elsif line =~ KK
+      authenticate = NTLM::Authenticate.decode $1
+      puts "AF #{authenticate.username}"
+    else
+      puts "BH #{line}"
+    end
+
+    $stdout.flush
 end

@@ -2,6 +2,7 @@ require 'stub-ntlm-helper/version'
 
 require 'base64'
 require 'bindata'
+require 'iconv'
 
 # With help from:
 #
@@ -14,6 +15,7 @@ module NTLM
 
   class Challenge
     def to_s
+      # Stolen example from davenport docs.
       [
         0x4e, 0x54, 0x4c, 0x4d, 0x53, 0x53, 0x50, 0x00, 0x02, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x02, 0x00, 0x00,
@@ -22,7 +24,11 @@ module NTLM
     end
 
     def encode
-      Base64.encode64 to_s
+      # We don't work because we're NTLMv1. We need to advertise NTLMv2.
+      # Base64.encode64(to_s)
+      
+      # I stole this from a curl request. Only works on "rms-prototype"
+      'TlRMTVNTUAACAAAACAAIADAAAAAFgokADOSQDeBSFP4AAAAAAAAAAI4AjgA4AAAAQwBPAFIAUAACAAgAQwBPAFIAUAABABYATgBPAFAARABFAFYAQQBQAFAAMAA1AAQAIgBjAG8AcgBwAC4AbgBvAHAAcwBhAC4AZwBvAHYALgBhAHUAAwA6AG4AbwBwAGQAZQB2AGEAcABwADAANQAuAGMAbwByAHAALgBuAG8AcABzAGEALgBnAG8AdgAuAGEAdQAAAAAA'
     end
   end
 
@@ -51,10 +57,20 @@ module NTLM
     end
 
     def username
-      tn = to_binary_s[target_name.siktir ... (target_name.siktir + target_name.uzunluk)]
-      un = to_binary_s[user_name.siktir ... (user_name.siktir + user_name.uzunluk)]
+      # Since we're parroting a sketchy packet, we support both OEM and Unicode
+      # strings.  Except, we don't, because Ruby 1.8 blows. Here I use the
+      # dumbest heuristic ever to figure out if we're ucs-2le and thus need to
+      # be utf-8. (Though, really, we probably need to be ASCII.)
+      #
+      # If we aren't utf-8/ASCII, then Apache chokes.
 
-      "#{tn}\\#{un}"
+      tn = to_binary_s[target_name.siktir ... (target_name.siktir + target_name.uzunluk)]
+      tn = Iconv.conv('utf-8', 'ucs-2le', tn) if tn["\0"]
+
+      un = to_binary_s[user_name.siktir ... (user_name.siktir + user_name.uzunluk)]
+      un = Iconv.conv('utf-8', 'ucs-2le', un) if un["\0"]
+
+      "#{tn}+#{un}"
     end
   end
 end
