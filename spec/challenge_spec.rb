@@ -1,4 +1,4 @@
-require 'stub-ntlm-helper'
+require 'stub-ntlm-auth'
 
 describe NTLM::Challenge do
   context "a minimal type 2 message" do
