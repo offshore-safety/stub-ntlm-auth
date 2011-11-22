@@ -1,4 +1,4 @@
-# stub-ntlm-helper
+# stub-ntlm-auth
 
 ## Storytime
 
@@ -10,4 +10,4 @@ Sometimes, passwords and security and Kerberos just don't matter.
 
 ## What is this?
 
-This is a stub `ntlm_helper`. It **always** authenticates.
+This is a stub `ntlm_auth` helper. It **always** authenticates.
