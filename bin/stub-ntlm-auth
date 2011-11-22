@@ -2,7 +2,7 @@
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-require 'stub-ntlm-helper'
+require 'stub-ntlm-auth'
 
 YR = /YR/
 KK = /KK ([0-9A-Za-z=+\/]+)$/
