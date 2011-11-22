@@ -5,8 +5,17 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Scott Robinson', 'Mustafa Sezgin']
   s.email       = ['sr@thoughtworks.com', 'msezgin@thoughtworks.com']
-  s.description = 'A stub for ntlm_helper'
-  s.summary     = s.description
+  s.summary      = 'This is a stub ntlm_helper. It always authenticates.'
+  s.description = <<-EOF
+Using Apache or Squid or whatever with NTLM? Ever had Active Directory arbitrarily hate winbind?
+
+I feel for you.
+
+Sometimes, passwords and security and Kerberos just don't matter.
+
+This is a stub ntlm_helper. It always authenticates.
+  EOF
+  s.homepage    = 'https://github.com/offshore-safety/stub-ntlm-helper'
 
   s.files         = `git ls-files`.split "\n"
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split "\n"
