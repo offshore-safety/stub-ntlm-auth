@@ -10,6 +10,24 @@ KK = /KK ([0-9A-Za-z=+\/]+)$/
 $<.each do |line|
     if line =~ YR
       challenge = NTLM::Challenge.new
+
+      [
+        :negotiate_ntlm,
+        :negotiate_extended_security,
+
+        # I wish so much I could say :negotiate_unicode here.
+        #
+        # But, Windows uses UCS-8LE and third-party clients (curl, Firefox,
+        # etc.) use UTF-8. And there's no reliable way to determine which
+        # encoding was used. So, instead, we default to OEM, which is close
+        # enough to ASCII, which is close enough to UTF-8, and just pass
+        # through the value directly to Apache/Squid/whoever.
+        #
+        # Let them deal with codepage compatibility. They brought it on
+        # themselves.
+        :negotiate_oem,
+      ].each { |f| challenge.flags[f] = 1 }
+
       puts "TT " + challenge.encode
     elsif line =~ KK
       authenticate = NTLM::Authenticate.decode $1
