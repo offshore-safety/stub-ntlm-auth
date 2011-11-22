@@ -1,5 +1,3 @@
-require 'stub-ntlm-helper/version'
-
 require 'base64'
 require 'bindata'
 

@@ -1,14 +1,11 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path '../lib', __FILE__
-require 'stub-ntlm-helper/version'
-
-Gem::Specification.new do |s| 
-  s.name        = StubNTLMHelper::NAME
-  s.version     = StubNTLMHelper::VERSION
+Gem::Specification.new do |s|
+  s.name        = 'stub-ntlm-helper'
+  s.version     = '0.0.1'
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ['Scott Robinson']
-  s.email       = ['sr@thoughtworks.com']
-  s.description = %q{A stub for ntlm_helper}
+  s.authors     = ['Scott Robinson', 'Mustafa Sezgin']
+  s.email       = ['sr@thoughtworks.com', 'msezgin@thoughtworks.com']
+  s.description = 'A stub for ntlm_helper'
   s.summary     = s.description
 
   s.files         = `git ls-files`.split "\n"
@@ -20,5 +17,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake'
 
   s.add_dependency 'bindata'
-  s.add_dependency 'ruby-ntlm'
 end
